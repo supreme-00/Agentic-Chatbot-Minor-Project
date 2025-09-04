@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Chatbot - Your Intelligent Assistant</title>
+    <meta name="description" content="Advanced AI chatbot with voice recognition, image analysis, and file upload capabilities. Get instant responses to your questions.">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Mobile Menu Button -->
+        <button id="mobile-menu-btn" class="mobile-menu-btn">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <!-- Sidebar -->
+        <div id="sidebar" class="sidebar">
+            <div class="sidebar-content">
+                <!-- Header -->
+                <div class="sidebar-header">
+                    <div class="sidebar-title">
+                        <div class="bot-avatar">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <h2>AI Chat</h2>
+                    </div>
+                    <button id="close-sidebar" class="close-sidebar-btn">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    
+                    <button id="new-chat-btn" class="new-chat-btn">
+                        <i class="fas fa-plus"></i>
+                        New Chat
+                    </button>
+                </div>
+
+                <!-- Chat History -->
+                <div class="chat-history">
+                    <div class="history-header">
+                        <i class="fas fa-history"></i>
+                        <span>Recent Chats</span>
+                    </div>
+                    <div class="history-list" id="history-list">
+                        <div class="history-item">
+                            <div class="history-content">
+                                <div class="history-title">
+                                    <i class="fas fa-message"></i>
+                                    <span>Getting Started</span>
+                                </div>
+                                <p class="history-preview">Hello! I'm your AI assistant...</p>
+                                <p class="history-time">Today</p>
+                            </div>
+                            <button class="delete-chat-btn">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                        <div class="history-item">
+                            <div class="history-content">
+                                <div class="history-title">
+                                    <i class="fas fa-message"></i>
+                                    <span>Image Analysis</span>
+                                </div>
+                                <p class="history-preview">I can analyze images for you...</p>
+                                <p class="history-time">Yesterday</p>
+                            </div>
+                            <button class="delete-chat-btn">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer -->
+                <div class="sidebar-footer">
+                    <p>AI Assistant v1.0</p>
+                    <p>Powered by Advanced AI</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Chat Area -->
+        <div class="main-chat">
+            <!-- Chat Header -->
+            <div class="chat-header">
+                <div class="chat-title">
+                    <div class="bot-avatar">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div>
+                        <h1>AI Assistant</h1>
+                        <p>Always here to help</p>
+                    </div>
+                </div>
+                <button id="header-new-chat" class="header-new-chat-btn">
+                    <i class="fas fa-plus"></i>
+                    New Chat
+                </button>
+            </div>
+
+            <!-- Messages Container -->
+            <div class="messages-container" id="messages-container">
+                <div class="messages-content">
+                    <div class="message bot-message message-appear">
+                        <div class="message-avatar">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <div class="message-content">
+                            <p>Hello! I'm your AI assistant. How can I help you today?</p>
+                            <span class="message-time" id="initial-time"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Input Area -->
+            <div class="input-area">
+                <div class="input-container">
+                    <div class="input-wrapper">
+                        <textarea 
+                            id="message-input" 
+                            placeholder="Type your message here..." 
+                            rows="1"
+                        ></textarea>
+                        
+                        <div class="input-controls">
+                            <button id="emoji-btn" class="control-btn" title="Add Emoji">
+                                <i class="fas fa-smile"></i>
+                            </button>
+                            <button id="file-btn" class="control-btn" title="Upload File">
+                                <i class="fas fa-paperclip"></i>
+                            </button>
+                            <button id="image-btn" class="control-btn" title="Upload Image">
+                                <i class="fas fa-image"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <button id="voice-btn" class="voice-btn" title="Voice Recording">
+                        <i class="fas fa-microphone"></i>
+                    </button>
+                    
+                    <button id="send-btn" class="send-btn" title="Send Message">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Emoji Picker -->
+        <div id="emoji-picker" class="emoji-picker hidden">
+            <div class="emoji-categories">
+                <button class="emoji-category active" data-category="smileys">😀</button>
+                <button class="emoji-category" data-category="people">👋</button>
+                <button class="emoji-category" data-category="nature">🌟</button>
+                <button class="emoji-category" data-category="objects">⚡</button>
+            </div>
+            <div class="emoji-grid" id="emoji-grid">
+                <!-- Emojis will be populated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Loading Overlay -->
+        <div id="loading-overlay" class="loading-overlay hidden">
+            <div class="loading-content">
+                <div class="loading-spinner"></div>
+                <p>Processing your request...</p>
+            </div>
+        </div>
+
+        <!-- Toast Notifications -->
+        <div id="toast-container" class="toast-container"></div>
+
+        <!-- Hidden File Inputs -->
+        <input type="file" id="file-input" accept=".pdf,.doc,.docx,.txt,.md" style="display: none;">
+        <input type="file" id="image-input" accept="image/*" style="display: none;">
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
