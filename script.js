@@ -119,12 +119,61 @@ class AIChatbot {
             this.recognition.interimResults = false;
             this.recognition.lang = 'en-US';
 
-            this.recognition.onresult = (event) => {
+            this.recognition.onresult = async (event) => {
                 const transcript = event.results[0][0].transcript;
-                document.getElementById('message-input').value = transcript;
-                this.autoResizeTextarea();
+
+                // Display speech as user message in chat
+                const userMessage = {
+                    id: this.currentMessageId++,
+                    type: 'user',
+                    content: transcript,
+                    timestamp: new Date()
+                };
+                this.messages.push(userMessage);
+                this.renderMessage(userMessage);
+
+                // Stop recording
                 this.stopRecording();
+
+                // Send transcript to backend for AI response
+                this.showLoadingMessage();
+                this.isLoading = true;
+
+                try {
+                    const response = await fetch("http://127.0.0.1:8000/chat", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ message: transcript })
+                    });
+
+                    const data = await response.json();
+
+                    const botMessage = {
+                        id: this.currentMessageId++,
+                        type: 'bot',
+                        content: data.reply,
+                        timestamp: new Date()
+                    };
+
+                    this.messages.push(botMessage);
+                    this.hideLoadingMessage();
+                    this.renderMessage(botMessage);
+                } catch (error) {
+                    this.hideLoadingMessage();
+                    const botMessage = {
+                        id: this.currentMessageId++,
+                        type: 'bot',
+                        content: "Sorry, I couldn't connect to the server. Please try again later.",
+                        timestamp: new Date()
+                    };
+                    this.messages.push(botMessage);
+                    this.renderMessage(botMessage);
+                    console.error("Error connecting to backend:", error);
+                } finally {
+                    this.isLoading = false;
+                }
             };
+
 
             this.recognition.onerror = () => {
                 this.stopRecording();
@@ -215,82 +264,69 @@ class AIChatbot {
     }
 
     /**
-     * Send a message
-     */
-    async sendMessage() {
-        const messageInput = document.getElementById('message-input');
-        const content = messageInput.value.trim();
-        
-        if (!content || this.isLoading) return;
+ * Send a message
+ */
+async sendMessage() {
+    const messageInput = document.getElementById('message-input');
+    const content = messageInput.value.trim();
+    
+    if (!content || this.isLoading) return;
 
-        // Create user message
-        const userMessage = {
+    // Create user message
+    const userMessage = {
+        id: this.currentMessageId++,
+        type: 'user',
+        content: content,
+        timestamp: new Date()
+    };
+
+    this.messages.push(userMessage);
+    this.renderMessage(userMessage);
+    
+    // Clear input
+    messageInput.value = '';
+    this.autoResizeTextarea();
+    
+    // Show loading
+    this.showLoadingMessage();
+    this.isLoading = true;
+    
+    try {
+        // ✅ Send message to FastAPI backend
+        const response = await fetch("http://127.0.0.1:8000/chat", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ message: content })
+        });
+
+        const data = await response.json();
+
+        const botMessage = {
             id: this.currentMessageId++,
-            type: 'user',
-            content: content,
+            type: 'bot',
+            content: data.reply,  // Use the reply from backend
             timestamp: new Date()
         };
 
-        this.messages.push(userMessage);
-        this.renderMessage(userMessage);
-        
-        // Clear input
-        messageInput.value = '';
-        this.autoResizeTextarea();
-        
-        // Show loading
-        this.showLoadingMessage();
-        this.isLoading = true;
-        
-        // Simulate AI response
-        setTimeout(() => {
-            const botMessage = {
-                id: this.currentMessageId++,
-                type: 'bot',
-                content: this.generateAIResponse(content),
-                timestamp: new Date()
-            };
-            
-            this.messages.push(botMessage);
-            this.hideLoadingMessage();
-            this.renderMessage(botMessage);
-            this.isLoading = false;
-        }, 1500);
+        this.messages.push(botMessage);
+        this.hideLoadingMessage();
+        this.renderMessage(botMessage);
+    } catch (error) {
+        this.hideLoadingMessage();
+        const botMessage = {
+            id: this.currentMessageId++,
+            type: 'bot',
+            content: "Sorry, I couldn't connect to the server. Please try again later.",
+            timestamp: new Date()
+        };
+        this.messages.push(botMessage);
+        this.renderMessage(botMessage);
+        console.error("Error connecting to backend:", error);
+    } finally {
+        this.isLoading = false;
     }
+}
 
-    /**
-     * Generate simulated AI response
-     */
-    generateAIResponse(userMessage) {
-        const responses = [
-            "That's an interesting question! Let me think about that for you.",
-            "I understand what you're asking. Here's my perspective on that...",
-            "Great question! Based on the information you've provided, I'd suggest...",
-            "I'd be happy to help you with that. Here's what I think...",
-            "That's a thoughtful inquiry. Let me provide you with a comprehensive answer.",
-            "I can definitely assist you with that. Here's my response..."
-        ];
-        
-        // Simple keyword-based responses
-        if (userMessage.toLowerCase().includes('hello') || userMessage.toLowerCase().includes('hi')) {
-            return "Hello there! It's great to meet you. How can I assist you today?";
-        }
-        
-        if (userMessage.toLowerCase().includes('help')) {
-            return "I'm here to help! You can ask me questions, upload images for analysis, or share files for discussion. What would you like assistance with?";
-        }
-
-        if (userMessage.toLowerCase().includes('image') || userMessage.toLowerCase().includes('picture')) {
-            return "I can analyze images for you! Just use the image upload button to share a picture, and I'll help describe what I see or answer questions about it.";
-        }
-
-        if (userMessage.toLowerCase().includes('voice') || userMessage.toLowerCase().includes('speak')) {
-            return "You can use the voice recording feature by clicking the microphone button. I'll convert your speech to text automatically!";
-        }
-
-        return responses[Math.floor(Math.random() * responses.length)] + " " + 
-               "This is a demo response. In a real implementation, this would connect to an AI service like OpenAI, Claude, or Google's Gemini API.";
-    }
 
     /**
      * Render a message in the chat
