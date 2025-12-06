@@ -1,0 +1,78 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f4f8; /* A very light blue-gray for the background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.login-container {
+    background-color: #ffffff; /* White background for the form container */
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    width: 350px;
+    text-align: center;
+}
+
+h1 {
+    color: #2c5d8a; /* A medium, non-vibrant blue */
+    margin-bottom: 25px;
+    font-size: 1.5em;
+}
+
+.input-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #333333;
+    font-weight: bold;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #cce0e8; /* A light blue for the border */
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 1em;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: #2c5d8a; /* Focus color matches the heading */
+}
+
+.login-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #4f8ac1; /* Another shade of blue for the button */
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.login-btn:hover {
+    background-color: #2c5d8a;
+}
+
+.lost-password {
+    display: block;
+    margin-top: 15px;
+    color: #4f8ac1;
+    text-decoration: none;
+    font-size: 0.9em;
+}
+
+.lost-password:hover {
+    text-decoration: underline;
+}
