@@ -45,11 +45,6 @@ Built with **FastAPI**, **PostgreSQL**, and **Gemini 2.5 Flash**, the system aut
 - Lab/classroom identification  
 - Day-wise timetable querying  
 
-### 🔹 Room Availability Module
-- Free classrooms:
-  - **Right now**
-  - **Between specific time ranges**
-
 ### 🔹 Authentication
 - Secure login (admin/student)  
 - Role-based access control  
@@ -58,12 +53,7 @@ Built with **FastAPI**, **PostgreSQL**, and **Gemini 2.5 Flash**, the system aut
 
 ## 🧠 System Architecture
 
-> ### 🖼️ **System Architecture Diagram**  
-> *(Placeholder – image will be added later)*  
->  
-> `![System Architecture Diagram](assets/architecture.png)`
-
----
+<img width="1319" height="130" alt="image" src="https://github.com/user-attachments/assets/13db46d9-f739-40ee-b7bf-57abecde3186" />
 
 ## 🛠️ Tech Stack
 
@@ -79,4 +69,45 @@ Built with **FastAPI**, **PostgreSQL**, and **Gemini 2.5 Flash**, the system aut
 ---
 
 ## 📁 Folder Structure
+📦 Agentic-AI-for-Campus
+├── backend/
+│ ├── main.py  
+│ ├── query_router.py  
+│ ├── formatter.py  
+│ ├── schema_context.py  
+│ ├── db.py  
+│ └── requirements.txt  
+│
+├── frontend/  
+│ ├── index.html  
+│ ├── script.js  
+│ ├── chatbot-script.js  
+│ ├── styles.css  
+│
+├── README.md  
+└── Project_Report.pdf 
 
+**📌 Current Modules (Completed**)
+
+1. General Campus Queries
+2. Student Information Module
+3. Teacher Information Module
+4. Timetable Module
+6. Secure Login System
+
+**🚀 Future Scope**
+1. Automated Notifications (exam alerts, attendance shortage, deadlines)
+2. Full ERP Integration (Android/iOS app)
+3. Academic Modules (CGPA, grades, electives)
+4. Faculty Dashboard
+
+**🤝 Contributors - Team 83 – Ganpat University**
+
+**Shashank Singh (22012011105) : Backend Master
+Sesha (22012021071) : UI-UX & Documentation Master
+Archie (22012011073) : Database Master**
+
+**🏆 Project Status**
+
+✔ Fully working minor project
+🔧 Ready to be extended as a full Campus ERP AI system
