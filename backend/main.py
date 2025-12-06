@@ -15,7 +15,7 @@ from schema_context import get_day_binary
 from query_router import detect_query_type, QueryType, build_query_context
 
 # Initialize Gemini
-client = genai.Client(api_key=os.getenv("GEMINI_API_KEY", "AIzaSyCpYyHLymA3er4k1l4A1OWXk2YLCl9S3Go"))
+client = genai.Client(api_key=os.getenv("GEMINI_API_KEY", "__YOUR_API_KEY__"))
 
 app = FastAPI(title="Ganpat University AI Chatbot")
 
@@ -738,4 +738,5 @@ async def startup():
 @app.on_event("shutdown")
 async def shutdown():
     from db import close_pool
+
     await close_pool()
