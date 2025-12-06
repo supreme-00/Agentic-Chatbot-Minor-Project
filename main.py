@@ -15,7 +15,7 @@ from schema_context import get_day_binary
 from query_router import detect_query_type, QueryType, build_query_context
 
 # Initialize Gemini
-client = genai.Client(api_key=os.getenv("GEMINI_API_KEY", "AIzaSyATz6Qc0BscZN3GXF2p_RJxHumsGGJgoSs"))
+client = genai.Client(api_key=os.getenv("GEMINI_API_KEY", "API-KEY))
 
 app = FastAPI(title="Ganpat University AI Chatbot")
 
