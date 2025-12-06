@@ -69,21 +69,21 @@ Built with **FastAPI**, **PostgreSQL**, and **Gemini 2.5 Flash**, the system aut
 ---
 
 ## 📁 Folder Structure
-📦 Agentic-AI-for-Campus
-├── backend/
+📦 Agentic-AI-for-Campus  
+├── backend/  
 │ ├── main.py  
 │ ├── query_router.py  
 │ ├── formatter.py  
 │ ├── schema_context.py  
 │ ├── db.py  
 │ └── requirements.txt  
-│
+│  
 ├── frontend/  
 │ ├── index.html  
 │ ├── script.js  
 │ ├── chatbot-script.js  
 │ ├── styles.css  
-│
+│  
 ├── README.md  
 └── Project_Report.pdf 
 
